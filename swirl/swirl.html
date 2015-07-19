@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Swirl</title>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+  attribute vec4 vPosition;
+  uniform float u_twist;
+
+  void main() {
+
+  vec2 squared = vPosition.xy * vPosition.xy;
+  float radius = sqrt(squared.x + squared.y);
+
+  mat4 rotation = mat4(
+    vec4(cos(u_twist * radius), sin(u_twist * radius), 0, 0),
+    vec4(-sin(u_twist * radius), cos(u_twist * radius), 0, 0),
+    vec4(0, 0, 1, 0),
+    vec4(0, 0, 0, 1));
+
+  gl_Position = vPosition * rotation;
+  
+  }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+void main() {
+    gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="swirl.js"></script>
+</head>   
+
+<body>
+<div>
+tesselation depth  0 <input id="slider" type="range"
+ min="0" max="4" step="1" value="3" />
+ 4
+</div>
+<div>
+twist  -90 <input id="twist" type="range"
+ min="-90" max="90" step="1" value="90" />
+ 90
+</div>
+
+
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</body>
+</html>
